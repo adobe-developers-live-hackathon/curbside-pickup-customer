@@ -1,0 +1,20 @@
+operations:
+  view:
+    - type: web
+      impl: index.html
+actions: actions
+web: web-src
+runtimeManifest:
+  packages:
+    dx-excshell-1:
+      license: Apache-2.0
+      actions:
+        i-am-here:
+          function: actions/i-am-here/index.js
+          web: 'yes'
+          runtime: 'nodejs:14'
+          inputs:
+            LOG_LEVEL: $LOG_LEVEL
+            MERCHANT_APP_URL: $MERCHANT_APP_URL
+          annotations:
+            final: true
