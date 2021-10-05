@@ -122,8 +122,8 @@ const ActionsForm = (props) => {
 
   // check the email input and adds it to the state
   async function setEmailInput (input, stateName, stateValid) {
-    // Hackathon TODO: Implement validation of email
-    setState({ ...state, [stateName]: input, [stateValid]: 'valid' })
+    let validStr = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(input) ? 'valid' : 'invalid' ;
+    setState({ ...state, [stateName]: input, [stateValid]: validStr })
   }
 
   // checks if form is valid
