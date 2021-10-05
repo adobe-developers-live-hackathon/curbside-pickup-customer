@@ -30,7 +30,14 @@ async function main (params) {
     // log parameters, only if params.LOG_LEVEL === 'debug'
     logger.debug(stringParameters(params))
 
-    // Hackathon TODO: Implement validation of existing incoming parameters: orderNumber, parkingSpaceNumber, customerEmail
+    // check for missing request input parameters and headers
+    const requiredParams = ['orderNumber', 'parkingSpaceNumber', 'customerEmail']
+    const requiredHeaders = []
+    const errorMessage = checkMissingRequestInputs(params, requiredParams, requiredHeaders)
+    if (errorMessage) {
+      // return and log client errors
+      return errorResponse(400, errorMessage, logger)
+    }
 
     // Hackathon TODO: Implement a call to the merchant application with incoming parameters
 
