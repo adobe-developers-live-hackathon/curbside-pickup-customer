@@ -39,15 +39,28 @@ async function main (params) {
       return errorResponse(400, errorMessage, logger)
     }
 
-    // Hackathon TODO: Implement a call to the merchant application with incoming parameters
-
+    // send data to merchant application
+    const merchantAppEndpoint = params.MERCHANT_APP_URL
+    logger.debug(`Merchant App endpoint: ${merchantAppEndpoint}`)
+    const res = await fetch(merchantAppEndpoint, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        orderNumber: params.orderNumber,
+        parkingSpace: params.parkingSpaceNumber,
+        customerEmail: params.customerEmail
+      })
+    })
+    if (!res.ok) {
+      if (res.status === 400) {
+        return errorResponse(400, 'Order not found for specified data', logger)
+      }
+      throw new Error('request to ' + merchantAppEndpoint + ' failed with status code ' + res.status)
+    }
+    const content = await res.json()
     const response = {
       statusCode: 200,
-      body: {
-        orderNumber: params.orderNumber,
-        parkingSpaceNumber: params.parkingSpaceNumber,
-        customerEmail: params.customerEmail
-      }
+      body: content
     }
 
     // log the response status code
